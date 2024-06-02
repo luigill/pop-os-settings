@@ -9,13 +9,17 @@
 #
 # COMO USAR?
 #   $ ./post-install.sh
-#
+
 # ----------------------------- VARIÁVEIS ----------------------------- #
 set -e
+
 
 ##URLS
 
 URL_OBSIDIAN="https://github.com/obsidianmd/obsidian-releases/releases/download/v1.5.12/obsidian_1.5.12_amd64.deb"
+URL_CODIUM="https://github.com/VSCodium/vscodium/releases/download/1.89.1.24130/codium_1.89.1.24130_amd64.deb"
+URL_APPIMAGELAUNCHER="https://github.com/TheAssassin/AppImageLauncher/releases/download/v2.2.0/appimagelauncher_2.2.0-travis995.0f91801.bionic_amd64.deb"
+URL_FASTFETCH="https://github.com/fastfetch-cli/fastfetch/releases/download/2.14.0/fastfetch-linux-amd64.deb"
 
 ##DIRETÓRIOS E ARQUIVOS
 
@@ -63,15 +67,14 @@ just_apt_update() {
 ##DEB SOFTWARES TO INSTALL
 
 PROGRAMAS_PARA_INSTALAR=(
-	gparted
 	timeshift
 	vlc
-	code
 	git
 	wget
 	build-essential
 	gnome-tweaks
 	openjdk-21-jdk
+	nodejs
 	htop
 	ranger
 	zathura
@@ -87,6 +90,10 @@ install_debs() {
 
 	mkdir "$DIRETORIO_DOWNLOADS"
 	wget -c "$URL_OBSIDIAN" -P "$DIRETORIO_DOWNLOADS"
+	wget -c "$URL_CODIUM" -P "$DIRETORIO_DOWNLOADS"
+	wget -c "$URL_APPIMAGELAUNCHER" -P "$DIRETORIO_DOWNLOADS"
+	wget -c "$URL_FASTFETCH" -P "$DIRETORIO_DOWNLOADS"
+	
 
 	## Instalando pacotes .deb baixados na sessão anterior ##
 	echo -e "${VERDE}[INFO] - Instalando pacotes .deb baixados${SEM_COR}"
@@ -113,13 +120,13 @@ install_flatpaks() {
 	flatpak install flathub org.gimp.GIMP -y
 	flatpak install flathub com.spotify.Client -y
 	flatpak install flathub com.bitwarden.desktop -y
-	flatpak install flathub md.obsidian.Obsidian -y
 	flatpak install flathub org.gnome.Boxes -y
 	flatpak install flathub org.qbittorrent.qBittorrent -y
 	flatpak install flathub com.discordapp.Discord -y
 	flatpak install flathub com.brave.Browser -y
 	flatpak install flathub com.stremio.Stremio -y
 	flatpak install flathub com.mattjakeman.ExtensionManager -y
+	flatpak install flathub com.rafaelmardojai.Blanket -y
 }
 
 # -------------------------------------------------------------------------- #
