@@ -73,11 +73,9 @@ PROGRAMAS_PARA_INSTALAR=(
 	wget
 	build-essential
 	gnome-tweaks
-	openjdk-21-jdk
-	nodejs
-	htop
-	ranger
-	zathura
+  gcc
+  eza
+  bat
 )
 
 # ---------------------------------------------------------------------- #
@@ -116,18 +114,64 @@ install_flatpaks() {
 
 	echo -e "${VERDE}[INFO] - Instalando pacotes flatpak${SEM_COR}"
 
-	flatpak install flathub com.obsproject.Studio -y
-	flatpak install flathub org.gimp.GIMP -y
-	flatpak install flathub com.spotify.Client -y
-	flatpak install flathub com.bitwarden.desktop -y
-	flatpak install flathub org.gnome.Boxes -y
-	flatpak install flathub org.qbittorrent.qBittorrent -y
-	flatpak install flathub com.discordapp.Discord -y
-	flatpak install flathub com.brave.Browser -y
-	flatpak install flathub com.stremio.Stremio -y
-	flatpak install flathub com.mattjakeman.ExtensionManager -y
-	flatpak install flathub com.rafaelmardojai.Blanket -y
+    flatpak install flathub com.discordapp.Discord -y
+    flatpak install flathub com.brave.Browser -y
+    flatpak install flathub com.spotify.Client -y
+    flatpak install flathub net.lutris.Lutris -y
+    flatpak install flathub com.heroicgameslauncher.hgl -y
+    flatpak install flathub net.davidotek.pupgui2 -y
+    flatpak install flathub com.obsproject.Studio -y
+    flatpak install flathub org.qbittorrent.qBittorrent -y
+    flatpak install flathub com.bitwarden.desktop -y
+    flatpak install flathub md.obsidian.Obsidian -y
+    flatpak install flathub io.freetubeapp.FreeTube -y
+    flatpak install flathub com.stremio.Stremio -y
+    flatpak install flathub com.github.johnfactotum.Foliate -y
+    flatpak install flathub com.rafaelmardojai.Blanket -y
+    flatpak install flathub com.protonvpn.www -y
+    flatpak install flathub info.febvre.Komikku -y
 }
+
+add_aliases(){
+
+    echo -e "${VERDE}[INFO] - Adicionando os aliases${SEM_COR}"
+
+    echo 'alias p3="python3"' >> ~/.bashrc
+    echo 'alias nf="fastfetch"' >> ~/.bashrc
+    echo 'alias up="sudo apt update && sudo apt upgrade -y && flatpak update -y && sudo apt autoremove -y"' >> ~/.bashrc
+    echo 'alias ls="eza --icons"' >> ~/.bashrc
+    echo 'alias la="eza --icons -l"' >> ~/.bashrc
+    echo 'alias cat="bat"' >> ~/.bashrc
+}
+
+install_mise(){
+
+    echo -e "${VERDE}[INFO] - Instalando mise${SEM_COR}"
+
+    curl https://mise.run | sh
+    echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+    eval "$(~/.local/bin/mise activate bash)"
+    ~/.local/bin/mise --version
+    mise use --global node@20
+    mise use --global python@3.11
+}
+
+install_starship(){
+
+    echo -e "${VERDE}[INFO] - Instalando starship${SEM_COR}"
+
+    curl -sS https://starship.rs/install.sh | sh
+    echo 'eval "$(starship init bash)"' >> ~/.bashrc
+}
+
+
+install_papirus(){
+
+    echo -e "${VERDE}[INFO] - Instalando icons papirus${SEM_COR}"
+
+    wget -qO- https://git.io/papirus-icon-theme-install | sh
+}
+
 
 # -------------------------------------------------------------------------- #
 # ----------------------------- PÓS-INSTALAÇÃO ----------------------------- #
@@ -175,6 +219,10 @@ add_archi386
 just_apt_update
 install_debs
 install_flatpaks
+add_aliases
+install_mise
+install_papirus
+install_starship
 extra_config
 apt_update
 system_clean
